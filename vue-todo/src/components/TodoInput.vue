@@ -16,7 +16,9 @@ export default {
   },
   methods: {
     addItem: function() {
-      localStorage.setItem(this.toDoItem, this.toDoItem)
+      let obj = {completed: false, item: this.toDoItem};
+      console.log(obj)
+      localStorage.setItem(this.toDoItem, obj);
       this.cleanInput();
     },
     cleanInput: function() {
