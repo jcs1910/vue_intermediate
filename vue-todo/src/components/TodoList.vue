@@ -1,9 +1,10 @@
 <template>
   <div>
     <ul>
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem" class="shadow">
-        <i class="checkBtn fas fa-check" v-on:click="toggleCompleted"></i>
-        {{ todoItem }}
+      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.item" class="shadow">
+        <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
+          v-on:click="toggleCompleted(todoItem, index)"></i>
+        <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"> 
           <i class="fa fa-trash" aria-hidden="true"></i>
         </span>
@@ -21,19 +22,22 @@ export default {
   },
   methods: {
     removeTodo: function(todoItem, index){
-      console.log(this.todoItems, index);
+      console.log(todoItem, index);
       localStorage.removeItem(todoItem)
       this.todoItems.splice(index, 1)
     },
-    toggleCompleted: function() {
-      console.log('toggle')
+    toggleCompleted: function(todoItem
+    ) {
+      todoItem.completed = !todoItem.completed;
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
     }
   },
   created: function() {
     if (localStorage.length > 0) {
       for (let i=0; i < localStorage.length; i++) {
         if (localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-          this.todoItems.push(localStorage.key(i));
+          this.todoItems.push((JSON.parse(localStorage.getItem(localStorage.key(i)))));
+          // this.todoItems.push(localStorage.key(i));
         }
       }
     }
@@ -65,5 +69,12 @@ li {
   line-height:50px;
   padding:0 10px 0 0;
   color: #64bde6;
+}
+.checkBtnCompleted {
+  color: #b3adad;
+}
+.textCompleted {
+  text-decoration: line-through;
+  color: #b3adad;
 }
 </style>
