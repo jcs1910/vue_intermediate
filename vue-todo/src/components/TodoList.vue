@@ -1,9 +1,16 @@
 <template>
   <div>
     <ul>
+<<<<<<< Updated upstream
       <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem" class="shadow">
         <i class="checkBtn fas fa-check" v-on:click="toggleCompleted"></i>
         {{ todoItem }}
+=======
+      <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item" class="shadow">
+        <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
+          v-on:click="toggleCompleted(todoItem, index)"></i>
+        <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
+>>>>>>> Stashed changes
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"> 
           <i class="fa fa-trash" aria-hidden="true"></i>
         </span>
@@ -14,11 +21,7 @@
 
 <script>
 export default {
-  data: function() {
-     return {
-       todoItems: []
-     }
-  },
+  props: ['propsdata'],
   methods: {
     removeTodo: function(todoItem, index){
       console.log(this.todoItems, index);
@@ -29,6 +32,7 @@ export default {
       console.log('toggle')
     }
   },
+<<<<<<< Updated upstream
   created: function() {
     if (localStorage.length > 0) {
       for (let i=0; i < localStorage.length; i++) {
@@ -38,6 +42,9 @@ export default {
       }
     }
   }
+=======
+
+>>>>>>> Stashed changes
 }
 </script>
 
