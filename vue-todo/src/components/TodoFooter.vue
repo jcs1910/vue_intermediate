@@ -1,19 +1,21 @@
 <template>
   <div>
-    footer
+    <div class="clearAllContainer">
+      <span class="clearAllBtn" v-on:click="clearToDo">Clear All</span>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    clearToDo() {
+      this.$emit('clearAll')
+    }
+  }
 }
 </script>
 
-<<<<<<< Updated upstream
-<style>
-
-=======
 <style scoped>
 .clearAllContainer {
   width: 8.5rem;
@@ -27,5 +29,4 @@ export default {
   color: #e20303;
   display: block;
 }
->>>>>>> Stashed changes
 </style>
