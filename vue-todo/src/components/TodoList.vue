@@ -1,11 +1,11 @@
 <template>
   <div>
     <transition-group name="list" tage="ul">
-      <li v-for="(todoItem, index) in this.todoItems" v-bind:key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.storedTodoItems" v-bind:key="todoItem.item" class="shadow">
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-          v-on:click="toggleCompleted(todoItem, index)"></i>
+          v-on:click="toggleCompleted({ todoItem, index })"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
-        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"> 
+        <span class="removeBtn" v-on:click="removeTodo({todoItem, index})"> 
           <i class="fa fa-trash" aria-hidden="true"></i>
         </span>
       </li>
@@ -14,18 +14,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   methods: {
-    removeTodo(todoItem, index){
-      this.$store.commit("removeOneItem", { todoItem, index })
-    },
-    toggleCompleted(todoItem, index) {
-      // this.$emit('toggleItem', todoItem, index)
-      this.$store.commit('toggleOneItem', { todoItem, index })
-    }
-  },
+    // removeTodo를 눌렀을 때 removeOneItem 뮤테이션이 호출 된다.
+    // map 헬퍼 함수는 자동으로 인자를 넘겨준다. removeOneItem({todoItem, index})와 같음
+    ...mapMutations({
+      removeTodo: "removeOneItem",
+      toggleCompleted: "toggleOneItem",
+    }),
+    // toggleCompleted(todoItem, index) {
+    //   // this.$emit('toggleItem', todoItem, index)
+    //   this.$store.commit('toggleOneItem', { todoItem, index })
+    // }
+  }, 
   computed: {
     // todoItems() {
     //   return this.$store.getters.storedTodoItems;
